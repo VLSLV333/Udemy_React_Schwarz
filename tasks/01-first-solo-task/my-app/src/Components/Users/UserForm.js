@@ -37,10 +37,10 @@ const UserForm = props => {
 
   return (
     <form onSubmit={formHandler} className={style.form}>
-      <label>Username</label>
-      <input type="text" onChange={nameInputHandler} value={nameInput}></input>
-      <label>Age (Years)</label>
-      <input type="number" onChange={ageInputHandler} value={ageInput}></input>
+      <label htmlFor='userName'>Username</label>
+      <input type="text" onChange={nameInputHandler} value={nameInput} id='userName'></input>
+      <label htmlFor='userAge'>Age (Years)</label>
+      <input type="number" onChange={ageInputHandler} value={ageInput} id='userAge'></input>
       <Button type='submit'>Add User</Button>
     </form>
   );
