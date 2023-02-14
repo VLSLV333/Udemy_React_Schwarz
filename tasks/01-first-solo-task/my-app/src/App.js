@@ -5,6 +5,9 @@ import Card from "./Components/UI/Card";
 import UserForm from "./Components/Users/UserForm";
 import UsersList from "./Components/Users/UsersList";
 
+// A Wrapper component created by our hand in order to avoid 'div' Soup. (Unnesessary created wrapping divs)
+// import Wrapper from "./Components/Helpers/Wrapper";
+
 function App() {
   const [validInput, setValidInput] = useState(true);
 
@@ -41,7 +44,9 @@ function App() {
   let zeroUsers = users.length > 0;
 
   return (
-    <div>
+    // <Wrapper>
+   // Built in React Wrapper that is created just to avoid using useless div or any wrappers.  
+    <React.Fragment>
       {!validInput && (
         <div
           className={style["black-screen"]}
@@ -57,7 +62,8 @@ function App() {
           ))}
         </Card>
       )}
-    </div>
+    </React.Fragment>
+    // </Wrapper>
   );
 }
 
