@@ -2,8 +2,9 @@ import React from "react";
 import Button from "../UI/Button";
 import style from './Modal.module.css'
 
-const Modal = props => {
 
+
+const Modal = props => {
   return (
     <div className={style.modal}>
       <h1>Invalid input</h1>

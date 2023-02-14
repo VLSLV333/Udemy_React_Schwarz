@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactDOM from 'react-dom';
 import style from "./App.module.css";
 import Modal from "./Components/Modal/Modal";
 import Card from "./Components/UI/Card";
@@ -7,6 +8,24 @@ import UsersList from "./Components/Users/UsersList";
 
 // A Wrapper component created by our hand in order to avoid 'div' Soup. (Unnesessary created wrapping divs)
 // import Wrapper from "./Components/Helpers/Wrapper";
+
+const BlackScreen = (props) => {
+  return (
+    <div
+      className={style["black-screen"]}
+      onClick={props.removeModalHandler}
+    ></div>
+  );
+};
+
+const ModalWindow = props => {
+  return (
+    <Modal
+      removeModal={props.removeModalHandler}
+      invalid={props.invalidMessage}
+    ></Modal>
+  )
+}
 
 function App() {
   const [validInput, setValidInput] = useState(true);
@@ -29,15 +48,13 @@ function App() {
 
   const modalMessage = (message) => {
     if (message === "empty") {
-      setValidInput(false)
+      setValidInput(false);
       setInvalidMessage(
         "Please enter a valid name and age (non-empty values)."
       );
-    } else if (message ==='low age'){
-      setValidInput(false)
-      setInvalidMessage(
-        "Please enter a valid age (>0)."
-      );
+    } else if (message === "low age") {
+      setValidInput(false);
+      setInvalidMessage("Please enter a valid age (>0).");
     }
   };
 
@@ -45,15 +62,10 @@ function App() {
 
   return (
     // <Wrapper>
-   // Built in React Wrapper that is created just to avoid using useless div or any wrappers.  
+    // Built in React Wrapper that is created just to avoid using useless div or any wrappers.
     <React.Fragment>
-      {!validInput && (
-        <div
-          className={style["black-screen"]}
-          onClick={removeModalHandler}
-        ></div>
-      )}
-      {!validInput && <Modal removeModal={removeModalHandler} invalid={invalidMessage}></Modal>}
+      {!validInput && ReactDOM.createPortal(<BlackScreen removeModalHandler={removeModalHandler}/>, document.getElementById('backdrop-root'))}
+      {!validInput && ReactDOM.createPortal(<ModalWindow removeModalHandler={removeModalHandler} invalidMessage={invalidMessage}/>, document.getElementById('overlay-root'))}
       <UserForm addHandler={addUser} invalidHandler={modalMessage}></UserForm>
       {zeroUsers && (
         <Card>
