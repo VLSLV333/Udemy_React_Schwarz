@@ -1,0 +1,58 @@
+.foodElem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.foodElem h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+}
+
+.foodElem p {
+    margin: 0 0 0.5rem 0;
+}
+
+.price {
+    color: rgb(135, 26, 26);
+    font-size: 1.2rem;
+    font-weight: 900;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.form label {
+    font-weight: 900;
+    font-size: 0.9rem;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.controls input {
+    width: 30%;
+    font-weight: 700;
+    border-radius: 5px;
+    border: 0.5px solid rgb(186, 186, 186);
+    text-align: center;
+    height: 1.5rem;
+    margin: 0 0 10px 0;
+}
+
+.button {
+    background-color: rgb(135, 26, 26);
+    border: none;
+    border-radius: 50px;
+    padding: 0.5rem 0.3rem;
+    color: white;
+    font-weight: 900;
+    font-size: 0.9rem;
+    width: 80%;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "./Components/Header/Header";
 import './App.css'
+import Main from "./Components/Main/Main";
 
 function App() {
   return (
@@ -28,28 +29,7 @@ function App() {
         <button>Order</button>
       </div> */}
       <Header/>
-      {/* <main>
-        <section className="card">
-          <h1>Food</h1>
-          <p>Choose your favorite meal...</p>
-          <p>All our meals are coocked...</p>
-        </section>
-        <section className="card">
-          <div className="foodElement">
-            <div className="foodDescription">
-              <h2>Name</h2>
-              <p>Description</p>
-              <p>Price</p>
-            </div>
-            <div className="Cart adding functionality">
-              <label>Amount</label>
-              <input min={0} max={100} step={1} type={"number"}></input>
-              <button className="add to cart">+Add</button>
-              <hr></hr>
-            </div>
-          </div>
-        </section>
-      </main> */}
+      <Main/>
     </React.Fragment>
   );
 }
