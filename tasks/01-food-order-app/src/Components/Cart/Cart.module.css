@@ -1,0 +1,27 @@
+.modal {
+    position: absolute;
+    z-index: 2;
+    background-color: white;
+    top: 20%;
+    left: 35%;
+    width: 30%;
+    border-radius: 10px;
+}
+.modal h1 {
+    background: purple;
+    margin: 0 0 0 0;
+    padding: 15px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    color: white;
+}
+.modal p {
+    padding: 15px;
+    font-weight: 600;
+}
+
+.modal button {
+    margin: 15px;
+    position: relative;
+    left: 70%;
+}

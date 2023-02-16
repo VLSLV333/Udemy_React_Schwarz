@@ -19,10 +19,10 @@ const Header = (props) => {
   }, [context.cart])  
 
   return (
-    <header className={style.back}>
+    <header className={`${style.back} ${props.class}`}>
       <div className={style.red}>
         <h2>ReactMeals</h2>
-        <Button className={`${style.button} ${itemAdded && style.buttonBig}`} onClick={context.removeFromCart}>
+        <Button className={`${style.button} ${itemAdded && style.buttonBig}`} onClick={context.openCart}>
           <img className={style.cart} src={cartSVG} alt="cart icon" />
           Your Cart <span className={style.orders}>{numberOfOrders}</span>
         </Button>

@@ -4,11 +4,16 @@ const CartContext = React.createContext({
   cart: [],
   addToCart: () => {},
   removeFromCart: () => {},
+  openCart: () => {},
+  closeCart: () => {},
+  cartStatus: false
 });
 
 // we can use LocalStorage to store cart products and useEffect to add it automaticaly on reload
 
 export const CartContextProvider = (props) => {
+
+  const [cartOpened, setCartOpened] = useState(false)
 
   const [cart, setCart] = useState([]);
 
@@ -45,12 +50,27 @@ export const CartContextProvider = (props) => {
     localStorage.removeItem('cart')
   };
 
+  const cartOpenHandler = () => {
+    setCartOpened(true)
+    const body = document.getElementById('body')
+    body.setAttribute('class', 'noscroll')
+  }
+
+  const cartCloseHandler = () => {
+    setCartOpened(false)
+    const body = document.getElementById('body')
+    body.setAttribute('class', '')
+  }
+
   return (
     <CartContext.Provider
       value={{
         cart: cart,
         addToCart: addToCartHandler,
         removeFromCart: removeFromCartHandler,
+        openCart: cartOpenHandler,
+        closeCart: cartCloseHandler,
+        cartStatus: cartOpened
       }}
     >
       {props.children}
