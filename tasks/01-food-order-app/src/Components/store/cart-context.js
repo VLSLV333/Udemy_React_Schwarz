@@ -6,10 +6,9 @@ const CartContext = React.createContext({
   removeFromCart: () => {},
   openCart: () => {},
   closeCart: () => {},
+  order: () => {},
   cartStatus: false
 });
-
-// we can use LocalStorage to store cart products and useEffect to add it automaticaly on reload
 
 export const CartContextProvider = (props) => {
 
@@ -23,7 +22,7 @@ export const CartContextProvider = (props) => {
     }
   }, [])
 
-  const addToCartHandler = (itemName, itemPrice, itemQuantity) => {
+  const addToCartHandler = (itemName, itemPrice, itemQuantity, itemID) => {
     let itemAlreadyInCart = false;
     setCart((prevState) => {
       let cartToUpdate = [...prevState];
@@ -38,6 +37,7 @@ export const CartContextProvider = (props) => {
           item: itemName,
           quantity: itemQuantity,
           price: itemPrice,
+          id: itemID
         });
       }
       localStorage.setItem('cart', JSON.stringify(cartToUpdate))
@@ -45,9 +45,24 @@ export const CartContextProvider = (props) => {
     });
   };
 
-  const removeFromCartHandler = () => {
-    console.log(JSON.parse(localStorage.getItem('cart')));
-    localStorage.removeItem('cart')
+  const removeFromCartHandler = (itemName) => {
+    setCart((prevState) => {
+      let cartToUpdate = [...prevState];
+      for (let product of cartToUpdate) {
+        if (product.item === itemName) {
+          product.quantity = +product.quantity - 1;
+        }
+        if( +product.quantity === 0) {
+          let goneItemIndex = cartToUpdate.indexOf(product)
+          cartToUpdate.splice(goneItemIndex, 1)
+        }
+      }
+      localStorage.setItem('cart', JSON.stringify(cartToUpdate))
+      if (cartToUpdate.length === 0){
+        localStorage.removeItem('cart')
+      }
+      return cartToUpdate
+    })
   };
 
   const cartOpenHandler = () => {
@@ -62,6 +77,10 @@ export const CartContextProvider = (props) => {
     body.setAttribute('class', '')
   }
 
+  const orderHandler = () => {
+    console.log('Order was made!')
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -70,7 +89,8 @@ export const CartContextProvider = (props) => {
         removeFromCart: removeFromCartHandler,
         openCart: cartOpenHandler,
         closeCart: cartCloseHandler,
-        cartStatus: cartOpened
+        cartStatus: cartOpened,
+        order: orderHandler
       }}
     >
       {props.children}

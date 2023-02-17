@@ -51,6 +51,7 @@ const Main = (props) => {
             description={food.description}
             price={food.price}
             key={food.id}
+            id={food.id}
           />
         ))}
       </Card>

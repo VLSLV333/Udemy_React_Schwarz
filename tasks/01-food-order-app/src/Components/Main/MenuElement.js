@@ -9,7 +9,7 @@ const MenuElement = (props) => {
   const formHandler = (event) => {
     event.preventDefault();
     const numberOfOrderedItems = event.target[0].value;
-    context.addToCart(props.item, props.price, numberOfOrderedItems);
+    context.addToCart(props.item, props.price, numberOfOrderedItems, props.id);
   };
 
   return (
