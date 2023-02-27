@@ -1,52 +1,55 @@
-import { useState } from "react";
+import useInput from "../hooks/use-input";
 
 const SimpleInput = (props) => {
-
   // useRef is better in case we want only obtain inputed value on form submit!
 
-  const [enteredName, setEnteredName] = useState("");
-  const [enteredNameTouched, setEnteredNameTouched] = useState(false);
+  let {
+    value: enteredName,
+    isValid: nameValid,
+    hasError: nameInputHasError,
+    valueChangeHadler: nameInputChangeHandler,
+    inputBlurHadler: nameInputBlurHandler,
+    reset: resetNameInput,
+  } = useInput((value) => value.trim() !== "");
+
+  let {
+    value: enteredEmail,
+    isValid: emailValid,
+    hasError: emailInputHasError,
+    valueChangeHadler: emailInputChangeHandler,
+    inputBlurHadler: emailInputBlurHandler,
+    reset: resetEmailInput,
+  } = useInput((value) => value.includes("@"));
 
   // provide validation logic
-  const enteredNameIsValid = enteredName.trim() !== '';
-  let formIsValid = false
 
-    if (enteredNameIsValid){
-      formIsValid = true
-    } 
+  let formIsValid = false;
 
-  const nameInputChangeHandler = (event) => {
-    // useState is better in case we want to obtain inputed value on every key input.
-    setEnteredName(event.target.value);
-  };
-
-  const nameInputBlurHandler = (event) => {
-    setEnteredNameTouched(true);
-  };
+  if (nameValid && emailValid) {
+    formIsValid = true;
+  }
 
   const formSubmissionHandler = (event) => {
     event.preventDefault();
-    setEnteredNameTouched(true);
 
-    if (!enteredNameIsValid) {
-      return;
-    }
-    setEnteredName("");
-    setEnteredNameTouched(false)
+    // if (!nameValid && !emailValid) {
+    //   return;
+    // }
+    resetNameInput();
+    resetEmailInput();
+
+    console.log("test");
 
     // or a worse way to do it, because we manipulate directly the DOM
     // nameRef.current.value = ''
   };
 
-  let inputDynamicStyles = enteredNameIsValid
-    ? "form-control"
-    : enteredNameTouched
-    ? "form-control invalid"
-    : "form-control";
+  let nameStyles = nameInputHasError ? "form-control invalid" : "form-control";
+  let emailStyles = emailInputHasError ? "form-control invalid" : "form-control";
 
   return (
     <form onSubmit={formSubmissionHandler}>
-      <div className={inputDynamicStyles}>
+      <div className={nameStyles}>
         <label htmlFor="name">Your Name</label>
         <input
           type="text"
@@ -55,9 +58,22 @@ const SimpleInput = (props) => {
           onChange={nameInputChangeHandler}
           onBlur={nameInputBlurHandler}
         />
-        {!enteredNameIsValid && enteredNameTouched && (
+        {nameInputHasError && 
           <p className="error-text">Name must not be empty!</p>
-        )}
+        }
+      </div>
+      <div className={emailStyles}>
+        <label htmlFor="email">Your E-mail</label>
+        <input
+          type="email"
+          id="email"
+          value={enteredEmail}
+          onChange={emailInputChangeHandler}
+          onBlur={emailInputBlurHandler}
+        />
+        {emailInputHasError &&
+          <p className="error-text">Email must be valid!</p>
+        }
       </div>
       <div className="form-actions">
         <button disabled={!formIsValid}>Submit</button>
