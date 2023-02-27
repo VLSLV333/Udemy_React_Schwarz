@@ -1,22 +1,39 @@
-import { useState } from "react"
+import { useReducer } from "react"
+
+const initialInputState = {
+    value: '',
+    touched: false
+}
+
+const inputStateReducer = (state, action) => {
+    if (action.name === 'INPUT_CHANGED'){
+        return {value:action.value, touched: state.touched}
+    } 
+    if (action.name === 'INPUT_BLURED'){
+        return {value: state.value, touched: true}
+    }
+    if (action.name === 'INPUT_RESTART'){
+        return {value: '', touched: false}
+    }
+    return initialInputState
+}
 
 const useMyInput = (validationLogic) => {
-    const [inputValue, setInputValue] = useState('')
-    const [inputTouched, setInputTouched] = useState(false)
+    const [inputState, dispatchInputStateReducer] = useReducer(inputStateReducer, initialInputState)
+
     const inputChangeHandler = (event) => {
-        setInputValue(event.target.value)
+        dispatchInputStateReducer({value: event.target.value, name: 'INPUT_CHANGED'})
     }
     const inputBlurHandler = (event) => {
-        setInputTouched(true)
+        dispatchInputStateReducer({name: 'INPUT_BLURED'})
     }
     const restart = () => {
-        setInputValue('')
-        setInputTouched(false)
+        dispatchInputStateReducer({name: 'INPUT_RESTART'})
     }
-    let inputValid = validationLogic(inputValue)
-    let errorInInput = !inputValid && inputTouched
-    
-    return {inputValue, inputValid, errorInInput, inputChangeHandler, inputBlurHandler, restart}
+    let inputValid = validationLogic(inputState.value)
+    let errorInInput = !inputValid && inputState.touched
+
+    return {inputValue: inputState.value, inputValid, errorInInput, inputChangeHandler, inputBlurHandler, restart}
 }
 
 export default useMyInput
