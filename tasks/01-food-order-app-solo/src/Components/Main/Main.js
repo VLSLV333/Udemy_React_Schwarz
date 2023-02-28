@@ -1,61 +1,43 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Card from "../UI/Card/Card";
 import style from "./Main.module.css";
 import MenuElement from "./MenuElement";
 
 const Main = (props) => {
+  const [menu, setMenu] = useState([]);
+  const [error, setError] = useState("Sorry, try to reload page");
 
-  const fetchMenu = async () => {
+  const fetchMenuHandler = useCallback(async () => {
     try {
-      const responce = await fetch('https://react-learn-http-post-default-rtdb.europe-west1.firebasedatabase.app/menu.json')
-      if (!responce.ok){
-        throw new Error('smth s not working!')
+      const response = await fetch(
+        "https://react-learn-http-post-default-rtdb.europe-west1.firebasedatabase.app/menu.json"
+      );
+      if (!response.ok) {
+        throw new Error("Food didn`t fetch!");
       }
-      const menuData = await responce.json()
-      // const menuData = responce
-      const test = JSON.parse(menuData)
-      console.log(test)
-      // console.log(JSON.parse(menuData))
-      // for (let food in menuData){
-      //   console.log(menuData)
-      // } 
-    } catch (error) {
-      console.log(error)
-    }
-  };
-  fetchMenu()
 
-  const menu = [
-    {
-      item: "Sushi",
-      description: "Finest fish and veggies",
-      price: "22.99",
-      id: Math.random().toString(),
-    },
-    {
-      item: "Schnitzel",
-      description: "A german specialty!",
-      price: "16.50",
-      id: Math.random().toString(),
-    },
-    {
-      item: "Barbecue Burger",
-      description: "American, raw, meaty",
-      price: "12.99",
-      id: Math.random().toString(),
-    },
-    {
-      item: "Green Bowl",
-      description: "Healthy...and green...",
-      price: "18.99",
-      id: Math.random().toString(),
-    },
-  ];
+      const data = await response.json();
+
+      const loadedFood = [];
+
+      for (let food in data) {
+        loadedFood.push({ ...data[food], id: food });
+      }
+
+      setMenu(loadedFood);
+    } catch (error) {
+      setError(error.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchMenuHandler();
+  }, [fetchMenuHandler]);
 
   return (
     <main className={style.main}>
       <Card className={style.banner}>
-        <h1>Delicious Julia, Delivered To You</h1>
+        <h1>Delicious Food, Delivered To You</h1>
         <p>
           Choose your favorite meal from our broad selection of available meals
           and enjoy a delicious lunch or dinner at home.
@@ -75,6 +57,7 @@ const Main = (props) => {
             id={food.id}
           />
         ))}
+        {menu.length === 0 && <p>{error}</p>}
       </Card>
     </main>
   );

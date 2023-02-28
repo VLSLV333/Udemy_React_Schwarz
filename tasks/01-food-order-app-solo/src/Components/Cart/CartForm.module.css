@@ -1,0 +1,79 @@
+.form {
+  margin: 20px 0;
+  padding: 3%;
+  background-color: rgb(226, 224, 223);
+  border-radius: 10px;
+  text-align: start;
+}
+
+.form label {
+  display: block;
+}
+
+.form .radio {
+  display: inline;
+}
+
+.form input::-webkit-outer-spin-button,
+.form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 20px 0;
+}
+.total h2,
+p {
+  margin: 0;
+  font-weight: 900;
+}
+
+.total p {
+  font-size: 1.5rem;
+}
+
+.button {
+  background-color: rgb(135, 26, 26);
+  border: 1px solid rgb(135, 26, 26);
+  border-radius: 50px;
+  color: white;
+  padding: 2% 5%;
+  font-size: 1rem;
+  margin: 0;
+}
+.button:hover {
+  background-color: white;
+  color: rgb(135, 26, 26);
+  border: 1px solid rgb(135, 26, 26);
+}
+
+.button:disabled {
+    background-color: rgb(88, 88, 88);
+    border: rgb(88, 88, 88);
+    color: white;
+    cursor: not-allowed;
+}
+
+.close {
+  background-color: white;
+  color: rgb(135, 26, 26);
+  border: 1px solid rgb(135, 26, 26);
+  margin: 0 20px 0 0;
+}
+
+.close:hover {
+  background-color: rgb(135, 26, 26);
+  border: 1px solid rgb(135, 26, 26);
+  color: white;
+}
+.buttons {
+    text-align: center;
+}
+.wrong {
+    color:rgb(211, 20, 20);
+    border-color:rgb(211, 20, 20);
+}
