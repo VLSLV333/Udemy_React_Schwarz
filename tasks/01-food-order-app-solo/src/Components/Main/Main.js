@@ -5,13 +5,15 @@ import MenuElement from "./MenuElement";
 
 const Main = (props) => {
   const [menu, setMenu] = useState([]);
-  const [error, setError] = useState("Sorry, try to reload page");
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchMenuHandler = useCallback(async () => {
     try {
       const response = await fetch(
         "https://react-learn-http-post-default-rtdb.europe-west1.firebasedatabase.app/menu.json"
       );
+      //  ================    this validation makes sens but didn't work for me, so I changed it for more simple
       if (!response.ok) {
         throw new Error("Food didn`t fetch!");
       }
@@ -24,9 +26,15 @@ const Main = (props) => {
         loadedFood.push({ ...data[food], id: food });
       }
 
+      if (loadedFood.length === 0) {
+        throw new Error("Wrong fetch link provided:(");
+      }
+
       setMenu(loadedFood);
-    } catch (error) {
-      setError(error.message);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
     }
   }, []);
 
@@ -57,7 +65,8 @@ const Main = (props) => {
             id={food.id}
           />
         ))}
-        {menu.length === 0 && <p>{error}</p>}
+        {error && !loading && <p>{error}</p>}
+        {loading && <p>Receiving menu...</p>}
       </Card>
     </main>
   );

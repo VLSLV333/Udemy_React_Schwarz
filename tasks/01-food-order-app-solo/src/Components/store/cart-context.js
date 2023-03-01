@@ -8,12 +8,12 @@ const CartContext = React.createContext({
   closeCart: () => {},
   order: () => {},
   cartStatus: false,
-  justOrdered: false
+  justOrdered: false,
 });
 
 export const CartContextProvider = (props) => {
   const [cartOpened, setCartOpened] = useState(false);
-  const [cartJustOrdered, setCartJustOrdered] = useState(false)
+  const [cartJustOrdered, setCartJustOrdered] = useState(false);
 
   const [cart, setCart] = useState([]);
 
@@ -76,37 +76,45 @@ export const CartContextProvider = (props) => {
 
   const orderHandler = async (obj) => {
     console.log("Order was made!");
-    let order = { ...obj, orderedItems: [] };
+
+    let smallCart = [];
 
     for (let food of cart) {
-      order.orderedItems.push({
-        item: food.item,
-        quantity: food.quantity,
-      });
+      smallCart.push({ item: food.item, quantity: food.quantity });
     }
 
-    // console.log(order);
+    let order = { clientInfo: obj, orderedItems: smallCart };
 
-    const responce = await fetch(
-      "https://react-learn-http-post-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
-      {
-        method: "POST",
-        body: JSON.stringify(order),
-        headers: {
-          "Content-Type": "application/json",
-        },
+    try{
+      const responce = await fetch(
+        "https://react-learn-http-post-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
+        {
+          method: "POST",
+          body: JSON.stringify(order),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
+      if (responce.ok) {
+        setCartJustOrdered(true);
+        setCart([]);
+        setTimeout(() => {
+          setCartOpened(false);
+        }, 4000);
+        setTimeout(() => {
+          setCartJustOrdered(false);
+        }, 5000);
+        localStorage.removeItem("cart");
+      } else {
+        console.log("I don't really understand when exactly this responce in not ok! ALWAYS gives me back 200 WTF");
       }
-    );
-
-    if(responce.ok){
-      setCartJustOrdered(true)
-      setCart([])
-      setTimeout( () => {setCartOpened(false)}, 4000)
-      setTimeout( () => {setCartJustOrdered(false)}, 5000)
-      localStorage.removeItem('cart')
-    } else {
-      console.log('I can throw error')
+    } catch (err) {
+      console.log(err.message)
+      //    create new state set this state to error provide need logic...
     }
+    
   };
 
   return (
@@ -119,7 +127,7 @@ export const CartContextProvider = (props) => {
         closeCart: cartCloseHandler,
         order: orderHandler,
         cartStatus: cartOpened,
-        justOrdered: cartJustOrdered
+        justOrdered: cartJustOrdered,
       }}
     >
       {props.children}
