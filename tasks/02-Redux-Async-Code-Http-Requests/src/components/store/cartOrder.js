@@ -7,29 +7,22 @@ const cartOrder = createSlice({
     initialState,
     reducers: {
         addToCart(state, action){
-            let needNewItemInCart = true
-            for (let order of state.cartOrder){
-                if (action.payload.title === order.title){
-                    order.quantity += 1
-                    state.together += 1
-                    needNewItemInCart = false
-                }
-            }
-            if (needNewItemInCart){
+            let orderedItem = action.payload
+            let olreadyInCart = state.cartOrder.find(item => item.title === orderedItem.title)
+            state.together += 1
+
+            if (olreadyInCart){
+                olreadyInCart.quantity += 1
+            } else {
                 state.cartOrder.push(action.payload)
-                state.together += 1
             }
         },  
         removeFromCart(state, action){
-            for (let order of state.cartOrder){
-                if (action.payload.title === order.title){
-                    order.quantity -= 1
-                    state.together -= 1
-                    if(order.quantity === 0){
-                        const indexOfRemovedItem = state.cartOrder.indexOf(order)
-                        state.cartOrder.splice(indexOfRemovedItem, 1)
-                    }
-                }
+            let olreadyInCart = state.cartOrder.find(item => item.title === action.payload.title)
+            olreadyInCart.quantity -= 1
+            state.together -= 1
+            if(olreadyInCart.quantity === 0){
+                state.cartOrder = state.cartOrder.filter(item => item.title !== action.payload.title)
             }
         }
     }
