@@ -1,16 +1,41 @@
-import { useSelector } from 'react-redux';
+import { Fragment, useEffect } from "react";
 
-import Cart from './components/Cart/Cart';
-import Layout from './components/Layout/Layout';
-import Products from './components/Shop/Products';
+import { useSelector, useDispatch } from "react-redux";
+
+import Cart from "./components/Cart/Cart";
+import Layout from "./components/Layout/Layout";
+import Products from "./components/Shop/Products";
+import Notification from "./components/UI/Notification";
+import { sendCartData } from "./components/store/cartOrder";
+
+let isInitial = true
 
 function App() {
-  const hideCart = useSelector(state => state.showCart.showCart)
+  const dispatch = useDispatch();
+  const hideCart = useSelector((state) => state.showCart.showCart);
+  const cart = useSelector((state) => state.cartOrder.cartOrder);
+
+  const notification = useSelector((state) => state.showCart.notification);
+
+  useEffect(() => {
+
+    if (isInitial){
+      isInitial = false
+      return
+    }
+    
+    dispatch(sendCartData(cart))
+    
+  }, [cart, dispatch]);
+
   return (
-    <Layout>
-      {hideCart && <Cart />}
-      <Products />
-    </Layout>
+    <Fragment>
+      {notification && <Notification status={notification.status} title={notification.title} message={notification.message}/>}
+      <Layout>
+        {hideCart && <Cart />}
+        <Products />
+      </Layout>
+    </Fragment>
   );
 }
 
