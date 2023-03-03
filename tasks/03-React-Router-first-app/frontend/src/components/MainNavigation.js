@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import classes from './MainNavigation.module.css';
 
@@ -17,9 +17,6 @@ function MainNavigation() {
         </ul>
       </nav>
     </header>
-    <main>
-    <Outlet/>
-    </main>
     </>
   );
 }

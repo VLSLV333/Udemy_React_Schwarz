@@ -8,7 +8,7 @@ const DUMMYEVENTS = [
     {id: 5, title: 'Playing tenis'},
 ]
 
-const EventsPage = () => {
+const Events = () => {
     return(
         <>
         <h1>Events Page</h1>
@@ -19,4 +19,4 @@ const EventsPage = () => {
     )
 }
 
-export default EventsPage
+export default Events
