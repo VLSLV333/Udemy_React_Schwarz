@@ -1,3 +1,6 @@
+
+//=================>  useNavigation helps us determine if we are currently in page changing state. 
+
 // import { Outlet, useNavigation } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
 

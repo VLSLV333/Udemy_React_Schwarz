@@ -23,6 +23,7 @@
   text-decoration: none;
   font: inherit;
   cursor: pointer;
+  color: var(--color-primary-800);
 }
 
 .actions button {
