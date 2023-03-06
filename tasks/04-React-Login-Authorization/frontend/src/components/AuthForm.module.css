@@ -46,3 +46,24 @@
 .actions a:hover {
   background-color: var(--color-gray-800);
 }
+
+.a {
+  margin: 0 auto;
+  width: 15%;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  background-color: var(--color-gray-800);
+  border-radius: 4px;
+  overflow: hidden;
+  justify-content: center;
+}
+
+.a:hover {
+  transform: scale(1.02);
+  background-color: var(--color-gray-700);
+}
+
+.h2 {
+  text-align: center;
+}

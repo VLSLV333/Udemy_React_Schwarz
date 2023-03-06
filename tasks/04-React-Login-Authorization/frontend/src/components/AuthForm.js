@@ -1,39 +1,77 @@
-import { Form, Link, useSearchParams, useActionData, useNavigation } from 'react-router-dom';
+import {
+  Form,
+  Link,
+  useSearchParams,
+  useActionData,
+  useNavigation,
+} from "react-router-dom";
 
-import classes from './AuthForm.module.css';
+import classes from "./AuthForm.module.css";
 
 function AuthForm() {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const isLogin = searchParams.get('mode') === 'login'
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isLogin = searchParams.get("mode") === "login";
 
-  const navigation = useNavigation()
-  const isSubmitting = navigation.state === 'submitting'
+  const wrongAuthMode =
+    searchParams.get("mode") !== "login" &&
+    searchParams.get("mode") !== "signup";
 
-  const data = useActionData()
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  const data = useActionData();
 
   return (
     <>
-      <Form method="post" className={classes.form}>
-        <h1>{isLogin ? 'Log in' : 'Create a new user'}</h1>
-        {data && data.errors && <ul>
-          {Object.values(data.errors).map(error => <li key={error}>{error}</li>)}
-            </ul>}
-        {data && data.message && <h3>{data.message}</h3>}
-        <p>
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" name="email" required />
-        </p>
-        <p>
-          <label htmlFor="image">Password</label>
-          <input id="password" type="password" name="password" required />
-        </p>
-        <div className={classes.actions}>
-          <Link to={`?mode=${isLogin ? 'signup' : 'login'}`}>
-            {isLogin ? 'Create new user' : 'Login'}
+      {wrongAuthMode && (
+        <>
+          <h2 className={classes.h2}>Hello, this is wrong page:) Please, click:</h2>{" "}
+          <Link to={'/auth?mode=login'} className={classes.a}>
+            Go!
           </Link>
-          <button disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : isLogin ? "Login" : 'Save'}</button>
-        </div>
-      </Form>
+        </>
+      )}
+      {!wrongAuthMode && (
+        <Form method="post" className={classes.form}>
+          <h1>{isLogin ? "Log in" : "Create a new user"}</h1>
+          {data && data.errors && (
+            <ul>
+              {Object.values(data.errors).map((error) => (
+                <li key={error}>{error}</li>
+              ))}
+            </ul>
+          )}
+          {data && data.message && <h3>{data.message}</h3>}
+          <p>
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              required
+              defaultValue={""}
+            />
+          </p>
+          <p>
+            <label htmlFor="image">Password</label>
+            <input
+              id="password"
+              type="password"
+              name="password"
+              required
+              defaultValue={""}
+            />
+          </p>
+          <div className={classes.actions}>
+            <Link to={`?mode=${isLogin ? "signup" : "login"}`}>
+              {isLogin ? "Create new user" : "Login"}
+            </Link>
+            <button disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : isLogin ? "Login" : "Save"}
+            </button>
+          </div>
+        </Form>
+      )}
     </>
   );
 }
