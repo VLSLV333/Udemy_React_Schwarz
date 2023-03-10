@@ -1,1 +1,26 @@
-{"events":[{"title":"Hoh it s alive!","image":"https://expresstricks.com/wp-content/uploads/2019/04/comments-for-beautiful-pictures.jpg","date":"2023-03-24","description":"Yes here it is !","id":"4ef31d55-39da-4ea7-baf2-db4ffaae9141"}],"users":[{"email":"test@gmail.com","password":"$2a$12$i/qPFNZp7alK07/r8sp2CepNn2dNaWXUIQ1aGrm9qHyBQUUltr1L2","id":"efea5ac1-c73c-49a6-abb4-c772a74d083a"},{"email":"test2@gmail.com","password":"$2a$12$Wn9fzE9ordvzjW12hTeZ9.UGB2VoYT.91nUGWsgz52yzaBbMA6e22","id":"9d4fa06d-b41d-4586-988c-d8fdaac3fb14"}]}
+{
+	"events": [
+		{
+			"title": "This authentication is made using Token that was received from backend",
+			"image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLkcfXKi43N0uPnTF1ycJrLtIv1PZBeQhHi6eWg9FJoZXw76ZhuI8dgFA_ufgygzTNgCE&usqp=CAU",
+			"date": "2023-03-07",
+			"description": "Register, login and manipulate events as well!",
+			"id": "a95fd805-9712-410c-8864-98a57898e7e7"
+		},
+		{
+			"title": "Also you can delete events and edit them",
+			"image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtjrBpSRxKqDZxxjQNWiFRxbtPKa492Xjilg&usqp=CAU",
+			"date": "2023-02-07",
+			"description": "You can log in, but register before that.",
+			"id": "b932e91a-f97e-4640-b94e-772e631b225a"
+		},
+		{
+			"title": "This event was created by logged in user",
+			"image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1WUAxQs-oPKva7geJMRclJbQqe4soyZnlGQ&usqp=CAU",
+			"date": "2023-01-04",
+			"description": "You can create one as well! Just log in",
+			"id": "7c164085-8515-467a-a59f-7283439f45a3"
+		}
+	],
+	"users": []
+}

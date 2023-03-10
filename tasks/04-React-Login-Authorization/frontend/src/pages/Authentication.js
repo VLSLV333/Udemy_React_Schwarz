@@ -16,9 +16,6 @@ export const action = async ({ request }) => {
     //  In the end I changed Logic on AuthForm, so now I think this is check IS NEVER true, because you can not submit form
     //    if mode is not in this 2 states. I will still leave this if check, mb smth will change in future.
 
-    //  I changed to this redirection decision, because when this error is thrown  in <MainNavigation> useLoaderData('root')
-    // function is called on ErrorObject, which then results in errors in console.   What decision could be better?
-
     // throw json({ message: "Unsuported mode." }, { status: 500 });
     return redirect('/auth?mode=loginE')
   }
@@ -34,6 +31,7 @@ export const action = async ({ request }) => {
     headers: { "Content-Type": "application/json", },
     body: JSON.stringify(authData),
   });
+
 
   if (response.status === 422 || response.status === 401) {
     return response;

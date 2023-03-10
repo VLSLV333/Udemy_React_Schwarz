@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { Outlet, useNavigation, useLoaderData, useSubmit } from 'react-router-dom';
+import { Outlet, useLoaderData, useSubmit } from 'react-router-dom';
 
 import MainNavigation from '../components/MainNavigation';
 import { getTokenDurationLeft } from '../util/auth';
@@ -21,8 +21,6 @@ function RootLayout() {
     }
 
     const tokenLifeLeft = getTokenDurationLeft()
-
-    console.log(tokenLifeLeft)
 
     setTimeout(() => {
       submit(null, {action:'/logout', method: 'post'})
