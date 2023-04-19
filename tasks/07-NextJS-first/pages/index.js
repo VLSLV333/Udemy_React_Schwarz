@@ -8,7 +8,7 @@ const HomePage = ({ loadedMeetups }) => {
 	return (
 		<>
 			<Head>
-				<title>NextJS meetups</title>
+				<title>NextJS meetups VJ</title>
 				<meta name='description' content='Browse a huge list of React meetups!'/>
 			</Head>
 			<MeetupList meetups={loadedMeetups} />
