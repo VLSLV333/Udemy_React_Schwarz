@@ -1,34 +1,64 @@
+import Head from 'next/head';
+
+import { MongoClient } from 'mongodb';
+
 import MeetupList from '../components/meetups/MeetupList';
 
-const Dummy_Meetups = [
-	{
-		id: 'm1',
-		title: 'First Meetup',
-		image:
-			'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1200px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
-		address: 'Some address 5, 12345 Munchen',
-		description: 'This is the first meetup!',
-	},
-	{
-		id: 'm2',
-		title: 'First Meetup',
-		image:
-			'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1200px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
-		address: 'Some address 7, 12345 Munchen',
-		description: 'This is the second meetup!',
-	},
-	{
-		id: 'm3',
-		title: 'First Meetup',
-		image:
-			'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Stadtbild_M%C3%BCnchen.jpg/1200px-Stadtbild_M%C3%BCnchen.jpg?20130611211153',
-		address: 'Some address 9, 12345 Munchen',
-		description: 'This is the third meetup!',
-	},
-];
-
-const HomePage = () => {
-	return <MeetupList meetups={Dummy_Meetups} />;
+const HomePage = ({ loadedMeetups }) => {
+	return (
+		<>
+			<Head>
+				<title>NextJS meetups</title>
+				<meta name='description' content='Browse a huge list of React meetups!'/>
+			</Head>
+			<MeetupList meetups={loadedMeetups} />
+		</>
+	);
 };
+
+//		regenerate your page for every incoming request
+//		=======		This alternative is great when data changes multiple times every second, and you need access to request object
+
+// export async function getServerSideProps(context) {
+// 	const request = context.req;
+// 	const response = context.res;
+
+// 	// fetching data from API
+
+// 	return {
+// 		props: {
+// 			loadedMeetups: Dummy_Meetups,
+// 		},
+// 	};
+// }
+
+//		====== This alternative is faster
+export async function getStaticProps() {
+	// fetching data from API
+	const client = await MongoClient.connect(
+		'mongodb+srv://vlad_nextJSapp:vlad_pass123@testnextjsfirstapp.1k7xikz.mongodb.net/meetUp?retryWrites=true&w=majority'
+	);
+	const db = client.db();
+
+	const meetUpsCollection = db.collection('meetupsDB');
+
+	const meetups = await meetUpsCollection.find().toArray();
+
+	client.close();
+
+	return {
+		props: {
+			//	here we get error because _id on MongoDB is not just a string, so we manually convert it
+			loadedMeetups: meetups.map((meet) => ({
+				title: meet.title,
+				image: meet.image,
+				address: meet.address,
+				id: meet._id.toString(),
+			})),
+		},
+		// number here is seconds to revaluate this component on server, which will automatically update the pregenerated page on server. THis way there will be no need to redeploy our website every time the content on it updates;
+		revalidate: 10, // number of seconds for nextJS to wait untill regenerating page for an incoming request.
+	};
+}
 
 export default HomePage;
