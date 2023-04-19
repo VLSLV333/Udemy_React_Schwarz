@@ -57,7 +57,7 @@ export async function getStaticProps() {
 			})),
 		},
 		// number here is seconds to revaluate this component on server, which will automatically update the pregenerated page on server. THis way there will be no need to redeploy our website every time the content on it updates;
-		revalidate: 10, // number of seconds for nextJS to wait untill regenerating page for an incoming request.
+		revalidate: 1, // number of seconds for nextJS to wait untill regenerating page for an incoming request.
 	};
 }
 
